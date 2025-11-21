@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.prpo.chat</groupId>
+        <artifactId>encryption</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>encryption-service</artifactId>
+    <name>encryption-service</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.prpo.chat</groupId>
+            <artifactId>encryption-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>
