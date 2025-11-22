@@ -43,8 +43,20 @@ public class EncryptionServiceImpl implements EncryptionService {
     }
 
     @Override
-    public String encrypt(String plaintext) throws Exception {
+    public String encryptString(String plaintext) throws Exception {
+        byte[] ciphertextBlob = encryptBytes(plaintext.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(ciphertextBlob);
+    }
 
+    @Override
+    public String decryptString(String ciphertextBase64) throws Exception {
+        byte[] blob = Base64.getDecoder().decode(ciphertextBase64);
+        byte[] plaintextBytes = decryptBytes(blob);
+        return new String(plaintextBytes, StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public byte[] encryptBytes(byte[] data) throws Exception {
         byte[] salt = new byte[SALT_LENGTH];
         secureRandom.nextBytes(salt);
 
@@ -57,21 +69,18 @@ public class EncryptionServiceImpl implements EncryptionService {
         GCMParameterSpec gcmSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
         cipher.init(Cipher.ENCRYPT_MODE, key, gcmSpec);
 
-        byte[] ciphertextWithTag = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
+        byte[] ciphertextWithTag = cipher.doFinal(data);
 
         byte[] blob = new byte[SALT_LENGTH + IV_LENGTH + ciphertextWithTag.length];
         System.arraycopy(salt, 0, blob, 0, SALT_LENGTH);
         System.arraycopy(iv, 0, blob, SALT_LENGTH, IV_LENGTH);
         System.arraycopy(ciphertextWithTag, 0, blob, SALT_LENGTH + IV_LENGTH, ciphertextWithTag.length);
 
-        return Base64.getEncoder().encodeToString(blob);
+        return blob;
     }
 
     @Override
-    public String decrypt(String ciphertextBase64) throws Exception {
-
-        byte[] blob = Base64.getDecoder().decode(ciphertextBase64);
-
+    public byte[] decryptBytes(byte[] blob) throws Exception {
         if (blob.length < SALT_LENGTH + IV_LENGTH + 1) {
             throw new IllegalArgumentException("Ciphertext blob too short");
         }
@@ -90,8 +99,6 @@ public class EncryptionServiceImpl implements EncryptionService {
         GCMParameterSpec gcmSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
         cipher.init(Cipher.DECRYPT_MODE, key, gcmSpec);
 
-        byte[] plaintextBytes = cipher.doFinal(ciphertextWithTag);
-
-        return new String(plaintextBytes, StandardCharsets.UTF_8);
+        return cipher.doFinal(ciphertextWithTag);
     }
 }
