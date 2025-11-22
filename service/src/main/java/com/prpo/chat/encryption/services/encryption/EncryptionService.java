@@ -1,4 +1,4 @@
-package com.prpo.chat.encryption.services;
+package com.prpo.chat.encryption.services.encryption;
 
 public interface EncryptionService {
     public abstract String encrypt(String plainText) throws Exception;

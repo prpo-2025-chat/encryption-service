@@ -1,4 +1,4 @@
-package com.prpo.chat.encryption.services;
+package com.prpo.chat.encryption.services.encryption;
 
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EncryptionServiceImpl implements EncryptionService {
-
+    
     private static final int SALT_LENGTH = 16;
     private static final int IV_LENGTH = 12;
     private static final int KEY_LENGTH = 256;
