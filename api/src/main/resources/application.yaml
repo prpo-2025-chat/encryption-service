@@ -3,3 +3,9 @@ server:
 spring:
   application:
     name: encryption-service
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
