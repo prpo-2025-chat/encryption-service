@@ -28,12 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      env:
-        CHAT_APP_ENCRYPTION_PASSWORD: "random-string-123"
-      run: |
-        mvn clean install
-        cd api
-        mvn spring-boot:run &
+      run: mvn clean install
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
