@@ -26,6 +26,4 @@ COPY --from=build /app/api/target/*.jar /app/app.jar
 
 EXPOSE 8082
 
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl -fsS http://localhost:8082/health || exit 1
-
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
