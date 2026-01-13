@@ -31,7 +31,7 @@ jobs:
       env:
         CHAT_APP_ENCRYPTION_PASSWORD: "random-string-123"
       run: |
-        mvn clean install
+        mvn clean install -DskipTests
         mvn test
         cd api
         mvn spring-boot:run &
